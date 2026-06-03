@@ -1,0 +1,100 @@
+services:
+  postgres:
+    image: postgres:16
+    restart: always
+    command:
+      [
+        "postgres",
+        "-c",
+        "log_statement=all",
+        "-c",
+        "log_destination=stderr",
+        "-c",
+        "max_connections=200",
+        "-c",
+        "session_preload_libraries=auto_explain",
+        "-c",
+        "auto_explain.log_min_duration=500",
+        "-c",
+        "auto_explain.log_analyze=on",
+        "-c",
+        "auto_explain.log_timing=on",
+        "-c",
+        "auto_explain.log_verbose=on",
+      ]
+    environment:
+      POSTGRES_USER: cloudbreak
+      POSTGRES_PASSWORD: cloudbreak
+      POSTGRES_DB: cloudbreak
+    volumes:
+      - data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus-config.yaml:/etc/prometheus/prometheus-config.yaml:Z
+    command: ["--config.file=/etc/prometheus/prometheus-config.yaml"]
+    ports:
+      - "9090:9090"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  prometheus-pushgateway:
+    image: prom/pushgateway
+    ports:
+      - "9091:9091"
+
+  tempo:
+    image: grafana/tempo:latest
+    ports:
+      - "4317:4317"
+      - "4318:4318"
+      - "3200:3200"
+    command: ["-config.file=/etc/tempo/tempo.yaml"]
+    volumes:
+      - ./tempo.yaml:/etc/tempo/tempo.yaml:Z
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:Z
+    depends_on:
+      - tempo
+      - prometheus
+
+  solana-tracker:
+    build:
+      context: https://github.com/rpcpool/solana-cluster.git#triton
+      args:
+        GITHUB_SHA: triton
+    image: solana-cluster-manager:local
+    container_name: solana-tracker
+    restart: unless-stopped
+    command:
+      - tracker
+      - --config=/etc/solcluster/config.yml
+      - --listen=:8458
+      - --internal-listen=:8457
+    volumes:
+      - ./tracker-config.yml:/etc/solcluster/config.yml:ro,Z
+    ports:
+      - "8458:8458" # public API (/v1/...)
+      - "8457:8457" # metrics + /reload (optional, expose only if you want it on the host)
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8457/metrics"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  grafana_data: {}
+  data:
+    driver: local

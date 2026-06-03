@@ -1,0 +1,48 @@
+# Configuration for the migration CLI.
+#
+# Point CLOUDBREAK_MIGRATION_CONFIG at this file before running the migration binary, e.g.:
+#
+#   CLOUDBREAK_MIGRATION_CONFIG=cloudbreak.migration.toml \
+#     cargo run -p cloudbreak-migration -- up -u "$DATABASE_URL"
+#
+# The migration binary still uses sea-orm-cli's subcommand parser (up / down / fresh / status /
+# refresh / reset) and its -u / -s / -n flags — those are unchanged.
+
+# --- Owner-based partitioning of the `accounts` and `snapshot_accounts` tables -----------------
+#
+# Controls the partitioning shape used by the create-table migrations. The combination of
+# `hash-partitions` and `list-partitions` selects one of four schemas:
+#
+#   hash=false, list=false → plain (non-partitioned) table, PRIMARY KEY (pubkey, slot)
+#   hash=true,  list=false → PARTITION BY HASH (owner), PK (owner, pubkey, slot)
+#   hash=false, list=true  → PARTITION BY LIST (owner) with per-program partitions and a plain
+#                            (non-partitioned) `_default` catch-all
+#   hash=true,  list=true  → PARTITION BY LIST (owner) whose `_default` is further PARTITION
+#                            BY HASH (owner)
+#
+# When `list-partitions = true`, each pubkey in `programs-for-list-partition` gets its own
+# dedicated LIST partition. Owners not in that list land in `_default`.
+
+[pg-owner-partitions]
+hash-partitions = true
+hash-partition-count = 10
+list-partitions = false
+programs-for-list-partition = []
+
+# --- Indexes created at migration time on the `accounts` table ---------------------------------
+#
+# Each entry toggles one CREATE INDEX statement. The key is the exact PostgreSQL index name.
+#
+# `idx_accounts_pubkey` is a USING HASH index — it's opt-in because the composite B-tree
+# `idx_accounts_pubkey_slot` covers the same access pattern and supports ordering / range scans.
+# All other indexes default to true.
+#
+# Indexes for the `snapshot_accounts` table live in cloudbreak.snapshot.toml's own [pg-indexes]
+# section, because they're created at snapshot ingest time by the snapshot crate (not here).
+
+[pg-indexes]
+idx_accounts_pubkey = false
+idx_accounts_pubkey_slot = true
+idx_accounts_token_mint = true
+idx_accounts_token_owner = true
+idx_accounts_token_delegate = true

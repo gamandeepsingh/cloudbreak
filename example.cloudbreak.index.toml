@@ -1,0 +1,57 @@
+# The buffer size for queuing finalize slot events
+finalize-slot-buffer-size = 1000
+accounts-owner-map-enabled = false
+
+[snapshot]
+accounts-file-concurency = 32
+
+[snapshot.pg-indexes]
+idx_snapshot_accounts_pubkey = false
+idx_snapshot_accounts_pubkey_slot = true
+idx_snapshot_accounts_token_mint = true
+idx_snapshot_accounts_token_owner = true
+idx_snapshot_accounts_token_delegate = true
+
+# If this section is not present, the indexer will not download or process any snapshot
+[snapshot.tracker_endpoint]
+endpoint = "http://localhost:8458"
+
+[database]
+url = "postgres://cloudbreak:cloudbreak@localhost:5432/cloudbreak"
+max-connections = 10
+min-connections = 1
+connect-timeout = "30s"
+idle-timeout = "10m"
+acquire-timeout = "60s"
+max-lifetime = "30m"
+sqlx-logging = true
+schema-search-path = "public"
+test-before-acquire = true
+connect-lazy = false
+max-db-errors-threshold = 100
+
+[grpc]
+endpoint = "http://localhost:8877"
+x-token = "<YOUR_TOKEN>"
+timeout = 60
+chunk-size = 1000
+max-chunk-bytes-data = 2097152
+# The max number of grpc errors before trying to reconnect
+#  (it will always reconnect on a single stream `None`)
+max-grpc-errors = 1
+# The buffer size for queuing subscription events
+channel-size = 1000
+
+[metrics]
+host = "0.0.0.0"
+port = 8875
+
+[programs]
+include = ["Stake11111111111111111111111111111111111111"]
+
+# When set, the indexer runs in consistency-check mode: it indexes until the
+# limit is reached, compares its computed LtHash against the snapshot's, and
+# exits 0 on match / 1 on mismatch. Provide either time-limit or slot-limit.
+# [hash-checker]
+# time-limit = "4h"
+# slot-limit = 416520592

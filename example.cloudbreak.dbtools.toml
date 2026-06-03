@@ -1,0 +1,3 @@
+[[servers]]
+name = "local"
+database_url = "postgres://cloudbreak:cloudbreak@localhost:5432/cloudbreak"

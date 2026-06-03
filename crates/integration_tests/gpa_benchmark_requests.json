@@ -1,0 +1,322 @@
+[
+  {
+    "method": "getProgramAccounts",
+    "jsonrpc": "2.0",
+    "params": [
+      "jupr81YtYssSyPt8jbnGuiWon5f6x9TcDEFxYe3Bdzi",
+      {
+        "encoding": "base64",
+        "commitment": "confirmed",
+        "filters": [
+          {
+            "memcmp": {
+              "offset": 1,
+              "bytes": "VZMoMoKgZQb",
+              "encoding": "base58"
+            }
+          },
+          {
+            "memcmp": {
+              "bytes": "2zaTSyUT",
+              "offset": 7,
+              "encoding": "base58"
+            }
+          }
+        ]
+      }
+    ],
+    "id": "a42bfda3-769e-440b-a6a5-8f960fcf7caf"
+  },
+  {
+    "method": "getProgramAccounts",
+    "jsonrpc": "2.0",
+    "params": [
+      "KLend2g3cP87fffoy8q1mQqGKjrxjC8boSyAYavgmjD",
+      {
+        "encoding": "base64",
+        "commitment": "processed",
+        "filters": [
+          {
+            "dataSize": 8624
+          },
+          {
+            "memcmp": {
+              "offset": 31,
+              "bytes": "5wJeMrUYECGq41fxRESKALVcHnNX26TAWy4W98yULsua",
+              "encoding": "base58"
+            }
+          }
+        ]
+      }
+    ],
+    "id": "7d6f24fb-6138-452a-b199-99b42aba409a"
+  },
+  {
+    "method": "getProgramAccounts",
+    "jsonrpc": "2.0",
+    "params": [
+      "LBUZKhRxPF3XUpBCjp4YzTKgLccjZhTSDM9YuVaPwxo",
+      {
+        "encoding": "base64",
+        "commitment": "confirmed",
+        "filters": [
+          {
+            "memcmp": {
+              "bytes": "LgkNAEYaVX3",
+              "offset": 2,
+              "encoding": "base58"
+            }
+          },
+          {
+            "memcmp": {
+              "bytes": "HEfq89k9Rr8fWtTHLz9ZFQrfTUjiLaQoZJQPvTb43GvD",
+              "offset": 39,
+              "encoding": "base58"
+            }
+          },
+          {
+            "memcmp": {
+              "bytes": "Ac53mbAxbNrnYJ8vaSHDXVUrCKBRmvh3U1Au6QqUqoDb",
+              "offset": 7,
+              "encoding": "base58"
+            }
+          }
+        ]
+      }
+    ],
+    "id": "cede447b-db90-4190-a528-40426a0f1f1b"
+  },
+  {
+    "method": "getProgramAccounts",
+    "jsonrpc": "2.0",
+    "params": [
+      "jupr81YtYssSyPt8jbnGuiWon5f6x9TcDEFxYe3Bdzi",
+      {
+        "encoding": "base64",
+        "commitment": "confirmed",
+        "filters": [
+          {
+            "memcmp": {
+              "offset": 1,
+              "bytes": "VZMoMoKgZQb",
+              "encoding": "base58"
+            }
+          },
+          {
+            "memcmp": {
+              "bytes": "VzTnnLP",
+              "offset": 7,
+              "encoding": "base58"
+            }
+          }
+        ]
+      }
+    ],
+    "id": "53262f21-4a79-4e34-83f8-86aab3cc7632"
+  },
+  {
+    "method": "getProgramAccounts",
+    "jsonrpc": "2.0",
+    "params": [
+      "PERPHjGBqRHArX4DySjwM6UJHiR3sWAatqfdBS2qQJu",
+      {
+        "encoding": "base64",
+        "commitment": "confirmed",
+        "filters": [
+          {
+            "memcmp": {
+              "offset": 1,
+              "bytes": "32tkJosYU3Z"
+            }
+          },
+          {
+            "memcmp": {
+              "bytes": "1",
+              "offset": 199
+            }
+          }
+        ]
+      }
+    ],
+    "id": "9ca14ce4-3085-416d-8309-5a9a6504fbe0"
+  },
+  {
+    "method": "getProgramAccounts",
+    "jsonrpc": "2.0",
+    "params": [
+      "PERPHjGBqRHArX4DySjwM6UJHiR3sWAatqfdBS2qQJu",
+      {
+        "encoding": "base64",
+        "commitment": "confirmed",
+        "filters": [
+          {
+            "memcmp": {
+              "offset": 1,
+              "bytes": "HgWVUrv1XE",
+              "encoding": "base58"
+            }
+          },
+          {
+            "memcmp": {
+              "bytes": "5BUwFW4nRbftYTDMbgxykoFWqWHPzahFSNAaaaJtVKsq",
+              "offset": 7,
+              "encoding": "base58"
+            }
+          }
+        ]
+      }
+    ],
+    "id": "236382b6-6b9a-46b9-aa3f-1a76de96072c"
+  },
+  {
+    "method": "getProgramAccounts",
+    "jsonrpc": "2.0",
+    "params": [
+      "SHARKobtfF1bHhxD2eqftjHBdVSCbKo9JtgK71FhELP",
+      {
+        "encoding": "base64",
+        "commitment": "confirmed",
+        "filters": [
+          {
+            "memcmp": {
+              "offset": 1,
+              "bytes": "9C9vCHe2W8y",
+              "encoding": "base58"
+            }
+          },
+          {
+            "memcmp": {
+              "offset": 39,
+              "bytes": "DdzWN4NvhDj8qCzQNhPzYty99eBEWSy1jfbPJozYWL1z",
+              "encoding": "base58"
+            }
+          }
+        ]
+      }
+    ],
+    "id": "dcf36c62-8d0d-4d77-bbb7-acafc7317306"
+  },
+  {
+    "method": "getProgramAccounts",
+    "jsonrpc": "2.0",
+    "params": [
+      "ExponentnaRg3CQbW6dqQNZKXp7gtZ9DGMp1cwC4HAS7",
+      {
+        "encoding": "base64",
+        "commitment": "confirmed",
+        "filters": [
+          {
+            "memcmp": {
+              "bytes": "Jimf5pVB9RT",
+              "offset": 1,
+              "encoding": "base58"
+            }
+          },
+          {
+            "memcmp": {
+              "bytes": "6jQyASEg1RBhH5ihNCs4FaEdbCjyK1V7Cm4FDiXKa72S",
+              "offset": 7,
+              "encoding": "base58"
+            }
+          }
+        ]
+      }
+    ],
+    "id": "700b1660-1a32-496b-94d5-9ff9b39d3055"
+  },
+  {
+    "id": "1348",
+    "jsonrpc": "2.0",
+    "method": "getProgramAccounts",
+    "params": [
+      "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+      {
+        "filters": [
+          {
+            "dataSize": 165
+          },
+          {
+            "memcmp": {
+              "offset": 1,
+              "bytes": "2nsveNLZqybj7rb92JeT7LMT2EkpwBF5mw6NeoTVpYKM",
+              "encoding": "base58"
+            }
+          }
+        ],
+        "encoding": "jsonParsed",
+        "commitment": "confirmed"
+      }
+    ]
+  },
+  {
+    "method": "getProgramAccounts",
+    "jsonrpc": "2.0",
+    "params": [
+      "cpamdpZCGKUy5JxQXB4dcpGPiikHawvSWAd6mEn1sGG",
+      {
+        "encoding": "base64",
+        "commitment": "confirmed",
+        "filters": [
+          {
+            "memcmp": {
+              "offset": 1,
+              "bytes": "hQrXeCntzbV",
+              "encoding": "base58"
+            }
+          },
+          {
+            "dataSize": 1112
+          },
+          {
+            "memcmp": {
+              "offset": 167,
+              "bytes": "5tnuMDgCyhVgLbMsgRPiKuqatYKsscCgQz45wsw2BAGS",
+              "encoding": "base58"
+            }
+          }
+        ]
+      }
+    ],
+    "id": "40de3ea6-b4e1-4bd2-b1a2-1a426c63eada"
+  },
+  {
+    "method": "getProgramAccounts",
+    "jsonrpc": "2.0",
+    "params": [
+      "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s",
+      {
+        "encoding": "base64",
+        "commitment": "confirmed",
+        "filters": [
+          {
+            "memcmp": {
+              "offset": 1,
+              "bytes": "5",
+              "encoding": "base58"
+            }
+          },
+          {
+            "memcmp": {
+              "offset": 4,
+              "bytes": "3U5awP5vDj3qpTyfMsMkQKfSPcYbukLc8i9PDHac5zvi",
+              "encoding": "base58"
+            }
+          }
+        ]
+      }
+    ],
+    "id": "b22b9220-e6ad-4880-85e6-2a8722b0cecf"
+  },
+  {
+    "method": "getProgramAccounts",
+    "jsonrpc": "2.0",
+    "params": [
+      "Stake11111111111111111111111111111111111111",
+      {
+        "encoding": "base58",
+        "commitment": "finalized"
+      }
+    ],
+    "id": "a1c3e5f7-9b2d-4f6a-8e0c-1d3f5a7b9c2e"
+  }
+]

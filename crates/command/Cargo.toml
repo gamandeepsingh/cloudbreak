@@ -1,0 +1,46 @@
+[package]
+name = "cloudbreak"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+repository.workspace = true
+authors = [
+  "Triton One Limited",
+  "Fernando Deluret <38841537+fernandodeluret@users.noreply.github.com>",
+  "Arthur Paiva <38506981+ArthurPaivaT@users.noreply.github.com>",
+  "Nagaprasad V R <81755170+Nagaprasadvr@users.noreply.github.com>",
+  "Kyle Espinola",
+  "Wilfred Almeida <60785452+WilfredAlmeida@users.noreply.github.com>",
+  "Daniel Urgell",
+  "Mateusz Mroz",
+]
+
+[dependencies]
+cloudbreak-core = { workspace = true }
+cloudbreak-api = { workspace = true }
+cloudbreak-index = { workspace = true }
+cloudbreak-snapshot = { workspace = true }
+cloudbreak-query-tracker = { workspace = true }
+clap = { workspace = true }
+env_logger = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { version = "0.3.19", features = ["fmt", "env-filter"] }
+anyhow = { workspace = true }
+solana-lattice-hash = { workspace = true }
+solana-accounts-db = { workspace = true }
+solana-pubkey = { workspace = true }
+blake3 = { workspace = true }
+hex = { workspace = true }
+opentelemetry-otlp = { version = "0.31.0", features = ["grpc-tonic"] }
+tracing-opentelemetry = { workspace = true }
+opentelemetry_sdk = { version = "0.31.0", features = ["trace", "rt-tokio"] }
+opentelemetry = { workspace = true, features = ["trace"] }
+serde = { workspace = true }
+toml = { workspace = true }
+zstd = "0.13"
+tar = "0.4"
+sea-orm = { workspace = true }
+
+# jemalloc for better memory management
+tikv-jemallocator = "0.6.1"

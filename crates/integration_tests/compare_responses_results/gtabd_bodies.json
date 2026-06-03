@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "getTokenAccountsByDelegate",
+    "params": [
+      "8fNJhL9JDKb6e9CSaa49x5KU9ut4A73BDS1s5XP87Wpy",
+      {
+        "mint": "CASHx9KJUStyftLFWGvEVf59SGeG9sh5FfcnZMVPCASH"
+      },
+      {
+        "encoding": "jsonParsed"
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "getTokenAccountsByDelegate",
+    "params": [
+      "3zdGwA9DPWdmHjer2gE4ZTHDjvvzvTovwPJuz6CdXusS",
+      {
+        "mint": "2u1tszSeqZ3qBWF3uNGPFc8TzMk2tdiwknnRMWGWjGWH"
+      },
+      {
+        "encoding": "jsonParsed"
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "getTokenAccountsByDelegate",
+    "params": [
+      "6yFXgdRnLnfiemt4Di4qisWAkVD2UpiyfBrppRJKYpwH",
+      {
+        "mint": "11111111111111111111111111111111"
+      },
+      {
+        "encoding": "jsonParsed"
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "getTokenAccountsByDelegate",
+    "params": [
+      "Aycn5ogWNMqXw83TwHk9SrZHuzYcFi3fFk1HQeoS5dYv",
+      {
+        "mint": "CASHx9KJUStyftLFWGvEVf59SGeG9sh5FfcnZMVPCASH"
+      },
+      {
+        "encoding": "jsonParsed"
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "getTokenAccountsByDelegate",
+    "params": [
+      "GYQsudBpjUfodRmsWf4uWFLFaVaZHi5oguaPj6cRkfog",
+      {
+        "mint": "CASHx9KJUStyftLFWGvEVf59SGeG9sh5FfcnZMVPCASH"
+      },
+      {
+        "encoding": "jsonParsed"
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "getTokenAccountsByDelegate",
+    "params": [
+      "CTS6X1VWeUWr1tU8cGxAHU5FCmSpc14zq9GD7fwa1QYt",
+      {
+        "mint": "HVbpJAQGNpkgBaYBZQBR1t7yFdvaYVp2vCQQfKKEN4tM"
+      },
+      {
+        "encoding": "jsonParsed"
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "getTokenAccountsByDelegate",
+    "params": [
+      "2r78jTeiHds1He28yMefQ3nWYuRDPUuw1LsBBYv9s2nX",
+      {
+        "mint": "CASHx9KJUStyftLFWGvEVf59SGeG9sh5FfcnZMVPCASH"
+      },
+      {
+        "encoding": "jsonParsed"
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "getTokenAccountsByDelegate",
+    "params": [
+      "57LqN8UiJzpzr9K5ZJNrgeVQmACGKMEGEorCtKBGLdiE",
+      {
+        "mint": "CASHx9KJUStyftLFWGvEVf59SGeG9sh5FfcnZMVPCASH"
+      },
+      {
+        "encoding": "jsonParsed"
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "getTokenAccountsByDelegate",
+    "params": [
+      "3bZr1DLu12TV1Eg1DkRmcFLkq9kdvcB2pqARgkcWV4oW",
+      {
+        "mint": "CASHx9KJUStyftLFWGvEVf59SGeG9sh5FfcnZMVPCASH"
+      },
+      {
+        "encoding": "jsonParsed"
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "getTokenAccountsByDelegate",
+    "params": [
+      "Dzo1Wzhk2JuysSYaEyz24XpLP4wnvZEaEEJ38FDc9AKL",
+      {
+        "mint": "9QYybdHqCWB53h3bpJ6DY2ojgXavQKKe2yZR66xzDAKh"
+      },
+      {
+        "encoding": "jsonParsed"
+      }
+    ]
+  }
+]

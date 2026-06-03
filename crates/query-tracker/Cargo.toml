@@ -1,0 +1,39 @@
+[package]
+name = "cloudbreak-query-tracker"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+repository.workspace = true
+authors = [
+  "Triton One Limited",
+  "Fernando Deluret <38841537+fernandodeluret@users.noreply.github.com>",
+  "Arthur Paiva <38506981+ArthurPaivaT@users.noreply.github.com>",
+  "Nagaprasad V R <81755170+Nagaprasadvr@users.noreply.github.com>",
+  "Kyle Espinola",
+  "Wilfred Almeida <60785452+WilfredAlmeida@users.noreply.github.com>",
+  "Daniel Urgell",
+  "Mateusz Mroz",
+]
+
+[dependencies]
+cloudbreak-core = { workspace = true }
+cloudbreak-entity = { workspace = true }
+serde = { workspace = true }
+serde_json = "1.0.143"
+sea-orm = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+humantime = { workspace = true }
+jsonrpsee = { version = "0.26.0", features = ["server", "macros", "client", "http-client"] }
+jsonrpsee-types = "0.26.0"
+solana-pubkey = { workspace = true }
+solana-rpc-client-api = { workspace = true }
+thiserror = { workspace = true }
+prometheus = { workspace = true }
+lazy_static = { workspace = true }
+anyhow = { workspace = true }
+hyper = { workspace = true }
+hyper-util = { workspace = true }
+http-body-util = { workspace = true }
+hex = { workspace = true }
+reqwest = { version = "0.12", features = ["json"] }

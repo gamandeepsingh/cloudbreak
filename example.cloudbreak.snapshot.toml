@@ -1,0 +1,31 @@
+accounts-file-concurency = 32
+
+[database]
+url = "postgres://cloudbreak:cloudbreak@localhost:5432/cloudbreak"
+partition-clustering-threshold = 21474836480 # 20GiB
+
+[tracker_endpoint]
+endpoint = "http://localhost:8458"
+
+[programs]
+include = [
+  "reg8X1V65CSdmrtEjMgnXZk96b9SUSQrJ8n1rP1ZMg7",
+  "TWM1DdtALRdEFzmiWmPeVY1Cdy6uXHSu6tWtFjE5x2k",
+  "namesLPneVptA9Z5rqUDD9tMTWEJwofgaYwp8cawRkX",
+  "Stake11111111111111111111111111111111111111",
+  "MSPCUMbLfy2MeT6geLMMzrUkv1Tx88XRApaVRdyxTuu",
+  "11111111111111111111111111111111",
+]
+
+[metrics]
+host = "0.0.0.0"
+port = 8875
+
+# Indexes created on `snapshot_accounts` after ingest by the snapshot crate (not by migrations).
+# Each entry toggles one CREATE INDEX statement. The key is the exact PostgreSQL index name.
+[pg-indexes]
+idx_snapshot_accounts_pubkey = false
+idx_snapshot_accounts_pubkey_slot = true
+idx_snapshot_accounts_token_mint = true
+idx_snapshot_accounts_token_owner = true
+idx_snapshot_accounts_token_delegate = true

@@ -1,0 +1,64 @@
+[package]
+name = "cloudbreak-api"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+repository.workspace = true
+authors = [
+  "Triton One Limited",
+  "Fernando Deluret <38841537+fernandodeluret@users.noreply.github.com>",
+  "Arthur Paiva <38506981+ArthurPaivaT@users.noreply.github.com>",
+  "Nagaprasad V R <81755170+Nagaprasadvr@users.noreply.github.com>",
+  "Kyle Espinola",
+  "Wilfred Almeida <60785452+WilfredAlmeida@users.noreply.github.com>",
+  "Daniel Urgell",
+  "Mateusz Mroz",
+]
+
+[dependencies]
+cloudbreak-core = { workspace = true }
+serde = { workspace = true }
+sea-orm = { workspace = true }
+clap = { workspace = true }
+tokio = { workspace = true }
+async-trait = "0.1.88"
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+humantime = { workspace = true }
+tower = { version = "0.5.2", features = ["timeout"] }
+solana-pubkey = { workspace = true }
+cloudbreak-entity = { workspace = true }
+serde_json = "1.0.143"
+solana-rpc-client-api = { workspace = true }
+solana-account-decoder-client-types = { workspace = true }
+solana-account-decoder = { workspace = true }
+solana-account = { workspace = true }
+rust_decimal = { workspace = true }
+thiserror = { workspace = true }
+prometheus = { workspace = true }
+pin-project = { workspace = true }
+lazy_static = { workspace = true }
+anyhow = { workspace = true }
+hyper = { workspace = true }
+hyper-util = { workspace = true }
+http-body-util = { workspace = true }
+hex = { workspace = true }
+bs58 = "0.5.1"
+solana-commitment-config = { workspace = true }
+spl-token-2022 = { version = "10.0.0", features = ["no-entrypoint"] }
+spl-token-2022-interface = "2.1.0"
+spl-token-interface = "2.0.0"
+futures = { workspace = true }
+async-stream = "0.3.5"
+tokio-stream = "0.1.17"
+bytes = "1.7"
+opentelemetry = { workspace = true }
+tracing-opentelemetry = { workspace = true }
+
+# rayon = "1.10.0"
+
+chrono = { workspace = true }
+base64 = "0.22"
+serde_yaml = "0.9"
+reqwest = { version = "0.12", features = ["json"] }
+urlencoding = "2.1.3"

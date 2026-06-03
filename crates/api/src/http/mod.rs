@@ -1,0 +1,164 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+/*
+ * Copyright 2025-2026 Triton One Limited. All rights reserved.
+ */
+
+use crate::http::server::HttpHandlerResponse;
+use crate::http::server::ResponseBody;
+use crate::modules::cache::GpaProcessor;
+use crate::query_tracker_client::QueryTrackerClient;
+use crate::slot_syncronizer::SlotSyncronizerData;
+use hyper::StatusCode;
+use sea_orm::DatabaseConnection;
+use serde::{Deserialize, Serialize};
+use solana_rpc_client_api::response::Response as RpcResponse;
+use std::sync::{Arc, RwLock};
+use std::time::Duration;
+use cloudbreak_core::{AccountSelectorConfig, ProcessedCommitmentBehavior};
+
+pub mod operational_endpoints;
+pub mod rpc;
+pub mod server;
+pub mod streaming;
+
+#[derive(Clone)]
+pub struct CloudbreakRpcState {
+    pub database: DatabaseConnection,
+    pub query_tracker_client: Option<QueryTrackerClient>,
+    pub queries_timeout: Duration,
+    pub slot_syncronizer_data: Option<Arc<RwLock<SlotSyncronizerData>>>,
+    pub indexer_filter: Arc<AccountSelectorConfig>,
+    pub batch_handling_max_concurrency: usize,
+    pub gpa_stream_batch_size: usize,
+    pub request_timeout: Duration,
+    pub processed_commitment: ProcessedCommitmentBehavior,
+    pub gpa_processor: GpaProcessor,
+    pub genesis_hash: String,
+    pub max_multiple_accounts: usize,
+}
+
+impl CloudbreakRpcState {
+    #[allow(clippy::too_many_arguments)]
+    pub fn new(
+        database: DatabaseConnection,
+        queries_timeout: Duration,
+        slot_syncronizer_data: Option<Arc<RwLock<SlotSyncronizerData>>>,
+        client: Option<QueryTrackerClient>,
+        indexer_filter: Arc<AccountSelectorConfig>,
+        batch_handling_max_concurrency: usize,
+        gpa_stream_batch_size: usize,
+        request_timeout: Duration,
+        processed_commitment: ProcessedCommitmentBehavior,
+        gpa_processor: GpaProcessor,
+        genesis_hash: String,
+        max_multiple_accounts: usize,
+    ) -> Self {
+        Self {
+            database,
+            queries_timeout,
+            slot_syncronizer_data,
+            query_tracker_client: client,
+            indexer_filter,
+            batch_handling_max_concurrency,
+            gpa_stream_batch_size,
+            request_timeout,
+            processed_commitment,
+            gpa_processor,
+            genesis_hash,
+            max_multiple_accounts,
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone)]
+#[serde(untagged)]
+pub enum CloudbreakApiResponse<T> {
+    Response(T),
+    ResponseWithContext(RpcResponse<T>),
+}
+
+// ============================================================================
+// JSON-RPC Types
+// ============================================================================
+
+#[derive(Debug, Deserialize)]
+#[serde(untagged)]
+pub enum RpcRequestPayload {
+    Single(JsonRpcRequest),
+    Batch(Vec<JsonRpcRequest>),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct JsonRpcRequest {
+    pub jsonrpc: String,
+    pub method: String,
+    #[serde(default)]
+    pub params: serde_json::Value,
+    pub id: serde_json::Value,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct JsonRpcResponse<T> {
+    pub jsonrpc: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub result: Option<T>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub error: Option<JsonRpcError>,
+    pub id: serde_json::Value,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct JsonRpcError {
+    pub code: i32,
+    pub message: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub data: Option<serde_json::Value>,
+}
+
+impl<T: Serialize> JsonRpcResponse<T> {
+    pub fn success(id: serde_json::Value, result: T) -> Self {
+        Self {
+            jsonrpc: "2.0".to_string(),
+            result: Some(result),
+            error: None,
+            id,
+        }
+    }
+
+    pub fn error(id: serde_json::Value, code: i32, message: String) -> JsonRpcResponse<()> {
+        JsonRpcResponse {
+            jsonrpc: "2.0".to_string(),
+            result: None,
+            error: Some(JsonRpcError {
+                code,
+                message,
+                data: None,
+            }),
+            id,
+        }
+    }
+}
+
+fn extract_param<T: serde::de::DeserializeOwned>(
+    params: &serde_json::Value,
+    index: usize,
+) -> Result<T, String> {
+    match params {
+        serde_json::Value::Array(arr) => arr
+            .get(index)
+            .ok_or_else(|| format!("Missing parameter at index {}", index))
+            .and_then(|v| {
+                serde_json::from_value(v.clone()).map_err(|e| format!("Invalid parameter: {}", e))
+            }),
+        serde_json::Value::Null => Err(format!("Missing parameter at index {}", index)),
+        _ => Err("Parameters must be an array".to_string()),
+    }
+}
+
+fn make_error_response(id: serde_json::Value, code: i32, message: String) -> HttpHandlerResponse {
+    let response = JsonRpcResponse::<()>::error(id, code, message);
+    HttpHandlerResponse {
+        status: StatusCode::OK,
+        body: ResponseBody::Buffered(serde_json::to_vec(&response).unwrap()),
+    }
+}

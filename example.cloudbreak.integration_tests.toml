@@ -1,0 +1,110 @@
+[rpc1]
+url = "http://localhost:4000"
+name = "rpc1 example"
+
+[rpc2]
+url = "http://localhost:4001"
+name = "rpc2 example"
+
+[benchmark]
+target_rps = 5.0
+max_in_flight = 100
+duration_secs = 100
+timeout_secs = 60
+
+[source]
+type = "json_file"
+path = "crates/integration_tests/gpa_benchmark_requests.json"
+
+# Example of victoria_logs source
+# [source]
+# type = "victoria_logs"
+# url = "http://localhost:4000"
+# minutes = 1        # Time window in minutes. Omit to remove time constraint from query.
+# limit = 1000
+# min_request_size = 100000
+# max_request_size = 10000000
+# # If set it will filter the requests by the encoding, if empty it will return all encodings
+# # "base64" | "base58" | "base64+zstd" | "jsonParsed"
+# encoding = "jsonParsed"
+# inject_context = true  # On no-context mismatch, re-sends with withContext:true and slot compensation before deciding
+
+# Example of mismatch_dir source (re-run previously mismatched requests)
+# [source]
+# type = "mismatch_dir"
+# path = "crates/integration_tests/compare_responses_results"
+# inject_context = true  # Adds withContext:true to each request so slot compensation works for GPA
+
+[comparison]
+# In the case of different responses will check if the slot is behind and keep 
+# trying to resend the request until it matches the slot of the other endpoint
+enable_slot_compensation = true
+slot_compensation_max_retries = 50
+slot_compensation_interval_ms = 100
+ratio = 0.8
+save_mismatches = true
+# If `true`, every saved mismatch_*.json / rescued_*.json file also contains
+# an `iterations: [...]` array on each block (original & retry) capturing every
+# rpc1+rpc2 send that happened during slot compensation and the no-context
+# retry, each with its own ISO-8601-with-ms `fired_at` and a `phase` tag
+# (`"initial"` / `"with_context_retry"`). The pre-existing top-level
+# `responses` / `slots` / `sizes` / `durations_ms` are preserved.
+# save_compensation_iterations = false
+# If `true` AND `[db_check]` is configured AND `request_type = GetBalance`,
+# every iteration entry additionally embeds a `db_probe: {...}` block built from
+# a SQL query against Cloudbreak's DB fired in the same `tokio::join!` as
+# rpc1/rpc2. The block contains the `slots` table contents and the top-20
+# newest `(slot, lamports)` rows for the queried pubkey from `accounts` and
+# `snapshot_accounts`. Lets you see whether the indexer actually has data
+# at the slot the RPC returned, ruling slot compensation in or out as the
+# cause of a `getBalance` mismatch.
+# save_db_probe_iterations = false
+mismatch_output_dir = "crates/integration_tests/compare_responses_results"
+
+# Optional: when a mismatch is detected (after slot compensation), query the DB
+# to print each differing account's slot from the accounts table.
+# [db_check]
+# db_url = "postgres://user:password@localhost:5432/cloudbreak"
+# rpc_url = "http://localhost:8899"  # Agave RPC to query getSignaturesForAddress
+# get_last_signature = true          # Fetch last tx slot per differing account
+
+[print_config]
+min_request_bytes = 0
+min_request_duration_ms = 100
+min_request_account_count = 0
+# sample_every_secs = 30  # Periodically dump 1 (request, response1, response2)
+                          # tuple via `bench_sample` tracing target. Throttled
+                          # globally; omit or set to 0 to disable.
+
+# Per-event log toggles. All default to `false` so the run is silent unless you
+# explicitly opt in. Each `true` value falls through to the natural INFO level
+# (visible at default RUST_LOG); each `false` value adds an `<target>=off`
+# directive to EnvFilter, which overrides RUST_LOG because it's a more
+# specific target match.
+# log_matches               = false  # ✅ both endpoints matched on the first try
+# log_mismatches            = true   # ❌ post-compensation mismatch (covers retry-also-failed)
+# log_rescues               = false   # ✅ rescued by [retry_in_place]
+# log_no_context_mismatches = false   # ⚠️ mismatch with no result.context (slot lag unknowable)
+# log_compare_errors        = false   # 💥 one or both endpoints errored
+# log_individual_requests   = false  # per-rpc1 line (also gated by the min_* thresholds)
+
+# Optional: re-run a request once and only count it as a mismatch if the retry
+# also mismatches. The retry goes through the full pipeline (rpc1+rpc2, slot
+# compensation, no-context retry).
+# Modes:
+#   - `enabled = true` alone               → retry-on-mismatch (rescue only,
+#                                            single extra request per mismatch)
+#   - `enabled = true` + `retry_after_ms`  → schedule a retry for EVERY request
+#                                            exactly `retry_after_ms` ms after
+#                                            the original was sent. Often fires
+#                                            before the original returns.
+#                                            ⚠️  DOUBLES request volume on
+#                                            both endpoints — lower target_rps.
+# Recovered comparisons are surfaced in the summary as `Recovered by retry: N`.
+# `save_rescued = true` writes rescued_<program_id>_<ts>.json into
+# `comparison.mismatch_output_dir` for every recovered request (identical
+# schema to mismatch_*.json, so replayable through the `mismatch_dir` source).
+# [retry_in_place]
+# enabled        = true
+# retry_after_ms = 200
+# save_rescued   = false

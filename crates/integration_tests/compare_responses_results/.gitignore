@@ -1,0 +1,4 @@
+# ignore any mismatch_*.json files
+mismatch_*.json
+rescued_*.json
+gtabo_*.json

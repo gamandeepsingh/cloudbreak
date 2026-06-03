@@ -1,0 +1,31 @@
+[server]
+host = "0.0.0.0"
+port = 4000
+max-connections = 100
+
+[database]
+url = "postgres://cloudbreak:cloudbreak@localhost:5432/cloudbreak"
+
+[metrics]
+host = "0.0.0.0"
+port = 8875
+
+[query-tracker-client]
+endpoint = "http://localhost:4001"
+timeout = "5s"
+flush-interval = "1m"
+
+# How to handle requests with "processed" commitment level.
+# "reject" (default) — return an error for processed commitment requests.
+# "use-confirmed" — silently respond with confirmed data instead.
+# processed-commitment = "reject"
+
+[tracing]
+enabled = true
+endpoint = "http://localhost:4317"
+sample-ratio = 0.1
+export-interval = 5
+max-batch-size = 512
+max-queue-size = 2048
+track-idle-time = false
+span-filter = ["gpa_rpc", "gpa_db", "gpa_encode"]
