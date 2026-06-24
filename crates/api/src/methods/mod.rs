@@ -102,10 +102,10 @@ impl<'a> SqlDataSliceFilter<'a> {
                     hex::encode(bytes)
                 ))
             }
-            RpcFilterType::TokenAccountState => None,
-            // ValueCmp is applied as an in-memory post-filter (see
-            // `account_matches_value_cmps`), so it is intentionally not pushed
-            // down to SQL here.
+            RpcFilterType::TokenAccountState => Some(format!(
+                "(length({0}.data) = 165 OR (length({0}.data) > 165 AND SUBSTRING({0}.data FROM 166 FOR 1) = E'\\\\x02'::bytea))",
+                self.table
+            )),
             RpcFilterType::ValueCmp(_) => None,
         }
     }
