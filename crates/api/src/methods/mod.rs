@@ -5,8 +5,8 @@
 
 use solana_commitment_config::CommitmentLevel;
 use solana_pubkey::Pubkey;
-use solana_rpc_client_api::filter::RpcFilterType;
 use cloudbreak_core::ProcessedCommitmentBehavior;
+use cloudbreak_core::modules::rpc_filter_type::RpcFilterType;
 
 use crate::error::RpcError;
 
@@ -106,6 +106,7 @@ impl<'a> SqlDataSliceFilter<'a> {
                 "(length({0}.data) = 165 OR (length({0}.data) > 165 AND SUBSTRING({0}.data FROM 166 FOR 1) = E'\\\\x02'::bytea))",
                 self.table
             )),
+            RpcFilterType::ValueCmp(_) => None,
         }
     }
 }
