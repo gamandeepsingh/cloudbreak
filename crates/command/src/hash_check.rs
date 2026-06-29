@@ -223,7 +223,7 @@ fn unpack_snapshots(
     let full_slot = slot_from_snapshot(full_snapshot)?;
     let full_base_dir = sidecar::snapshot_base_dir(full_slot);
     let mut all_files =
-        sidecar::unpack_compressed_snapshot(full_path, &full_base_dir, full_slot)?;
+        sidecar::unpack_compressed_snapshot(full_path, &full_base_dir, full_slot)?.account_files;
 
     if let Some(inc) = incremental_snapshot {
         let inc_path = PathBuf::from(inc);
@@ -234,11 +234,9 @@ fn unpack_snapshots(
         );
         let inc_slot = slot_from_snapshot(inc)?;
         let inc_base_dir = sidecar::snapshot_base_dir(inc_slot);
-        all_files.extend(sidecar::unpack_compressed_snapshot(
-            inc_path,
-            &inc_base_dir,
-            inc_slot,
-        )?);
+        all_files.extend(
+            sidecar::unpack_compressed_snapshot(inc_path, &inc_base_dir, inc_slot)?.account_files,
+        );
     }
 
     Ok(all_files)
